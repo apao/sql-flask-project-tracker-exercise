@@ -46,6 +46,20 @@ def get_student_projects_and_grades_by_github(github):
 
     return row
 
+def get_students_grades_by_project(title):
+    """Given a project title, show all students who completed the project and grade received."""
+
+    QUERY = """
+        SELECT project_title, grade, student_github
+        FROM Grades 
+        WHERE project_title = :title
+        """
+    
+    db_cursor = db.session.execute(QUERY, {'title': title})
+    row = db_cursor.fetchall()
+ 
+    return row
+
 
 def make_new_student(first_name, last_name, github):
     """Add a new student and print confirmation.
@@ -70,7 +84,7 @@ def get_project_by_title(title):
         """
     db_cursor = db.session.execute(QUERY, {'title': title})
     row = db_cursor.fetchone()
-    print "Title: %s\nDescription: %s\nMax Grade: %d" % (row[0], row[1], row[2])
+    # print "Title: %s\nDescription: %s\nMax Grade: %d" % (row[0], row[1], row[2])
     return row
 
 
